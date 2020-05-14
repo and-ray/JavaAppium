@@ -31,7 +31,8 @@ public class Platform {
         URL URL = new URL(APPIUM_URL);
         if (isAndroid()) {
             return new AndroidDriver(URL, getAndroidDesiredCapabilities());
-        } else if (isIOS()) {
+        }
+        else if (isIOS()) {
             return new IOSDriver(URL, getIOSDesiredCapabilities());
         }
         else if (isMW()) {
@@ -89,7 +90,7 @@ public class Platform {
 
         Map<String, Object> mobileEmulation = new HashMap<String, Object>();
         mobileEmulation.put("deviceMetrics", deviceMetrics);
-        mobileEmulation.put("userAgent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.4 Safari/605.1.15");
+        mobileEmulation.put("userAgent", "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19");
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("window-size=360,640");
