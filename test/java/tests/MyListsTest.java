@@ -2,10 +2,7 @@ package tests;
 
 import lib.CoreTestCase;
 import lib.Platform;
-import lib.ui.ArticlePageObject;
-import lib.ui.MyListPageObject;
-import lib.ui.NavigationUI;
-import lib.ui.SearchPageObject;
+import lib.ui.*;
 import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
@@ -14,7 +11,10 @@ import org.junit.Test;
 
 public class MyListsTest extends CoreTestCase {
 
-    public static String name_of_reading_list = "MyFirstArticleList";
+    private static final String name_of_reading_list = "MyFirstArticleList";
+    private static final String
+            login = "Qa.automation332211",
+    password = "qwaqwa321";
 
     @Test
     public void testSaveFirstArticleToMyList() {
@@ -27,22 +27,34 @@ public class MyListsTest extends CoreTestCase {
         articlePageObject.waitForTitleElement();
         String articleTitle = articlePageObject.getArticleTitle();
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
-        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
+        MyListsPageObject myListsPageObject = MyListPageObjectFactory.get(driver);
 
         if (Platform.getInstance().isAndroid()) {
-            myListPageObject.openBookmarks();
+            myListsPageObject.openBookmarks();
             articlePageObject.addArticleToNewList(name_of_reading_list);
             navigationUI.openMyLists();
-            myListPageObject.openFolderByName(name_of_reading_list);
-            myListPageObject.waitForArticleToAppearByTitle(name_of_reading_list);
-        } else {
+            myListsPageObject.openFolderByName(name_of_reading_list);
+            myListsPageObject.waitForArticleToAppearByTitle(name_of_reading_list);
+        } else if (Platform.getInstance().isIOS()){
             articlePageObject.addArticlesToMySaved();
             articlePageObject.closeArticle();
             searchPageObject.clickCancelSearch();
-            myListPageObject.openSavedArticles();
-            myListPageObject.closeOverlay();
+            myListsPageObject.openSavedArticles();
+            myListsPageObject.closeOverlay();
+        } else{
+            articlePageObject.addArticlesToMySaved();
+            AuthorizationPageObject auth = new AuthorizationPageObject(driver);
+            auth.clickAuthorizationButton();
+            auth.enterLoginData(login, password);
+            auth.submitForm();
+            articlePageObject.waitForTitleElement();
+            assertEquals("we are not on the same page after login",
+                    articleTitle,
+                    articlePageObject.getArticleTitle()
+            );
+            articlePageObject.addArticlesToMySaved();
         }
-        myListPageObject.swipeByArticleToDelete(articleTitle);
+        myListsPageObject.swipeByArticleToDelete(articleTitle);
     }
 
     @Test
@@ -55,9 +67,9 @@ public class MyListsTest extends CoreTestCase {
         ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
         articlePageObject.waitForTitleElement();
         NavigationUI navigationUI = NavigationUIFactory.get(driver);
-        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
+        MyListsPageObject myListsPageObject = MyListPageObjectFactory.get(driver);
         if (Platform.getInstance().isAndroid()) {
-            myListPageObject.openBookmarks();
+            myListsPageObject.openBookmarks();
             articlePageObject.addArticleToNewList(name_of_reading_list);
             navigationUI.moveBack();
         } else {
@@ -67,10 +79,10 @@ public class MyListsTest extends CoreTestCase {
         searchPageObject.clickByArticleWithSubstring("JavaScript");
 
         if (Platform.getInstance().isAndroid()) {
-            myListPageObject.openBookmarks();
-            myListPageObject.addArticleToExistingReadingList(name_of_reading_list);
+            myListsPageObject.openBookmarks();
+            myListsPageObject.addArticleToExistingReadingList(name_of_reading_list);
             navigationUI.openMyLists();
-            myListPageObject.openFolderByName(name_of_reading_list);
+            myListsPageObject.openFolderByName(name_of_reading_list);
 
             articlePageObject.waitForArticleByTitlePresent("JavaScript");
             articlePageObject.waitForArticleByTitlePresent("Java (programming language)");
@@ -78,13 +90,13 @@ public class MyListsTest extends CoreTestCase {
             articlePageObject.addArticlesToMySaved();
             articlePageObject.closeArticle();
             searchPageObject.clickCancelSearch();
-            myListPageObject.openSavedArticles();
-            myListPageObject.closeOverlay();
+            myListsPageObject.openSavedArticles();
+            myListsPageObject.closeOverlay();
             articlePageObject.waitForArticleByNamePresent("Java (programmin");
             articlePageObject.waitForArticleByNamePresent("JavaScript");
         }
-        myListPageObject.swipeByArticleToDelete("Java (programming language)");
-        myListPageObject.waitForArticleToDisappearByTitle("Java (programming language)");
-        myListPageObject.waitForArticleToAppearByTitle("JavaScript");
+        myListsPageObject.swipeByArticleToDelete("Java (programming language)");
+        myListsPageObject.waitForArticleToDisappearByTitle("Java (programming language)");
+        myListsPageObject.waitForArticleToAppearByTitle("JavaScript");
     }
 }

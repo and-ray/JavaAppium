@@ -1,11 +1,10 @@
-package lib.ui.android;
+package lib.ui.mobile_web;
 
-import io.appium.java_client.AppiumDriver;
-import lib.ui.MyListPageObject;
+import lib.ui.MyListsPageObject;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-public class AndroidMyListPageObject extends MyListPageObject {
-    public AndroidMyListPageObject(RemoteWebDriver driver) {
+public class MWMyListsPageObject extends MyListsPageObject {
+    public MWMyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

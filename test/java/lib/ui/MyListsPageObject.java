@@ -4,7 +4,7 @@ import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-abstract public class MyListPageObject extends MainPageObject {
+abstract public class MyListsPageObject extends MainPageObject {
 
     protected static String
             BUTTON_TO_OPEN_BOOKMARK_OPTIONS,
@@ -13,7 +13,7 @@ abstract public class MyListPageObject extends MainPageObject {
             BUTTON_TO_OPEN_SAVED_ARTICLES,
             CLOSE_OVERLAY;
 
-    public MyListPageObject(RemoteWebDriver driver) {
+    public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
     }
 

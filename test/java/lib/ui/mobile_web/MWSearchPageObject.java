@@ -6,18 +6,16 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 public class MWSearchPageObject extends SearchPageObject {
     static {
 
-        SEARCH_INIT_ELEMENT = "css://*[@name='Search Wikipedia']";
-        SEARCH_INPUT = "xpath://*[@name='Search Wikipedia']";
-        SEARCH_CANCEL_BUTTON = "id:Cancel";
+        SEARCH_INIT_ELEMENT = "css:button#searchIcon";
+        SEARCH_INPUT = "css:form>input[type='search']";
+        SEARCH_CANCEL_BUTTON = "css:button.cancel";
         SEARCH_RESULT_BY_SUBSTRING_TPL =
-                "xpath://*[contains(@name,'{SUBSTRING}')]";
+                "xpath://a[contains(@data-title,'{SUBSTRING}')]";
         SEARCH_RESULT_BY_TITLE_AND_DESCRIPTION_TPL =
-                "xpath://android.view.ViewGroup[./android.widget.TextView[@resource-id='org.wikipedia:id/page_list_item_title' and @text='{TITLE}']]" +
-                        "[./android.widget.TextView[@resource-id='org.wikipedia:id/page_list_item_description' and @text='{DESCRIPTION}']]";
-        SEARCH_RESULT_ELEMENT = "xpath://XCUIElementTypeLink";
-        SEARCH_RESULT_ELEMENT_WITH_TITLE = "xpath://XCUIElementTypeLink[contains(@name,'{SUBSTRING}')]";
-        //    "xpath://*[@resource-id='org.wikipedia:id/search_results_list']/*/*[@resource-id='org.wikipedia:id/page_list_item_title']";
-        SEARCH_EMPTY_RESULT_ELEMENT = "xpath://*[@name='No results found']";
+                "xpath://ul[@class='page-list']/li[@title='{TITLE}']//div[@class='wikidata-description'][contains(text(),'{DESCRIPTION}')]";
+        SEARCH_RESULT_ELEMENT = "css:ul.page-list>li.page-summary";
+        SEARCH_RESULT_ELEMENT_WITH_TITLE = "xpath://ul[@class='page-list']/li[@title='{SUBSTRING}']";
+        SEARCH_EMPTY_RESULT_ELEMENT = "css:p.without-results";
     }
 
     public MWSearchPageObject(RemoteWebDriver driver) {

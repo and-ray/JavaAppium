@@ -1,10 +1,9 @@
 package tests;
 
-import io.appium.java_client.TouchAction;
 import lib.CoreTestCase;
 import lib.Platform;
 import lib.ui.ArticlePageObject;
-import lib.ui.MyListPageObject;
+import lib.ui.MyListsPageObject;
 import lib.ui.NavigationUI;
 import lib.ui.SearchPageObject;
 import lib.ui.factories.ArticlePageObjectFactory;
@@ -12,7 +11,6 @@ import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
 import org.junit.Test;
-import org.openqa.selenium.Dimension;
 
 import static java.lang.Thread.sleep;
 
@@ -20,6 +18,9 @@ public class ChangeAppConditionTests extends CoreTestCase {
 
     @Test
     public void testChangeScreenOrientationOnSearchResult() throws InterruptedException {
+       if (Platform.getInstance().isMW()){
+           return;
+       }
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -50,6 +51,9 @@ public class ChangeAppConditionTests extends CoreTestCase {
 
     @Test
     public void testCheckSearchArticleInBackground() throws InterruptedException {
+        if (Platform.getInstance().isMW()){
+            return;
+        }
         SearchPageObject searchPageObject = SearchPageObjectFactory.get(driver);
         searchPageObject.initSearchInput();
         searchPageObject.typeSearchLine("Java");
@@ -63,10 +67,10 @@ public class ChangeAppConditionTests extends CoreTestCase {
         else {
             ArticlePageObject articlePageObject = ArticlePageObjectFactory.get(driver);
             articlePageObject.closeArticle();}
-        MyListPageObject myListPageObject = MyListPageObjectFactory.get(driver);
+        MyListsPageObject myListsPageObject = MyListPageObjectFactory.get(driver);
         sleep(1000);
 
-        myListPageObject.waitForArticleToAppearByTitle("Java (programming language)");
+        myListsPageObject.waitForArticleToAppearByTitle("Java (programming language)");
     }
 
 }

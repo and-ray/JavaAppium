@@ -16,7 +16,8 @@ abstract public class ArticlePageObject extends MainPageObject {
             MY_LIST_OK_BUTTON,
             MY_ARTICLE_TPL,
             OPTIONS_ADD_TO_MY_LIST_BUTTON,
-            CLOSE_ARTICLE_BUTTON;
+            CLOSE_ARTICLE_BUTTON,
+            OPTIONS_REMOVE_FROM_MY_LIST_BUTTON;
 
     public ArticlePageObject(RemoteWebDriver driver) {
         super(driver);
@@ -33,8 +34,10 @@ abstract public class ArticlePageObject extends MainPageObject {
         WebElement titleElement = waitForTitleElement();
         if (Platform.getInstance().isAndroid()) {
             return titleElement.getAttribute("text");
-        } else {
+        } else if (Platform.getInstance().isIOS()) {
             return titleElement.getAttribute("name");
+        } else {
+            return titleElement.getText();
         }
     }
 
@@ -45,7 +48,13 @@ abstract public class ArticlePageObject extends MainPageObject {
                     "Cannot find the end of the article",
                     100
             );
-        } else swipeUpTillElementAppears(
+        } else if (Platform.getInstance().isIOS()){
+            swipeUpTillElementAppears(
+                FOOTER_ELEMENT,
+                "Cannot find the end of the article",
+                40
+        );
+        } else scrollWebPageTillElementNotVisible(
                 FOOTER_ELEMENT,
                 "Cannot find the end of the article",
                 40
@@ -73,10 +82,27 @@ abstract public class ArticlePageObject extends MainPageObject {
     }
 
     public void addArticlesToMySaved(){
+        if(Platform.getInstance().isMW()){
+            removeArticleFromSavedIfItAdded();
+        }
         waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON,
                 "Cannot find option to add article to reading list",
                 5
                 );
+    }
+
+    public void removeArticleFromSavedIfItAdded(){
+        if (isElementPresent(OPTIONS_REMOVE_FROM_MY_LIST_BUTTON)){
+            waitForElementAndClick(
+                    OPTIONS_REMOVE_FROM_MY_LIST_BUTTON,
+                    "Cannot click button to remove saved article",
+                   1
+            );
+            this.waitForElementPresent(
+                    OPTIONS_ADD_TO_MY_LIST_BUTTON,
+                    "Cannot find button to add an article to saved list after removing it from this list before"
+            );
+        }
     }
 
     public void addArticleToExistingList(String name_of_reading_list){

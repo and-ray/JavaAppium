@@ -15,6 +15,7 @@ public class SearchPageObjectFactory {
             return new AndroidSearchPageObject(driver);
         } else if (Platform.getInstance().isIOS()) {
             return new IOSSearchPageObject(driver);
-        } else return new MWSearchPageObject(driver);
+        }
+        else return new MWSearchPageObject(driver);
     }
 }
