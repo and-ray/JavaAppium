@@ -134,6 +134,7 @@ public class MyListsTest extends CoreTestCase {
         myListsPageObject.swipeByArticleToDelete("Java (programming language)");
         myListsPageObject.waitForArticleToDisappearByTitle("Java (programming language)");
         //myListsPageObject.waitForArticleToAppearByName("JavaScript");
-        assertEquals("Article name is not as expected", , "JavaScript");
+        String article_name = myListsPageObject.getTextFromArticleName();
+        assertEquals("Article name is not as expected", "JavaScript", article_name) ;
     }
 }

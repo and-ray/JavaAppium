@@ -1,8 +1,6 @@
 package lib.ui;
 
 import lib.Platform;
-import lib.ui.mobile_web.MWMyListsPageObject;
-import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class MyListsPageObject extends MainPageObject {
@@ -82,8 +80,10 @@ abstract public class MyListsPageObject extends MainPageObject {
         );
     }
 
-    public void getTextFromArticleName(){
-       return waitForElementAndGetAttribute(ARTICLE_BY_NAME_TPL, "Cannot get article name");
+    public String getTextFromArticleName(){
+        System.out.println("ARTICLE_BY_NAME_TPL = " + ARTICLE_BY_NAME_TPL);
+       return waitForElementAndGetAttribute(ARTICLE_BY_NAME_TPL,
+               "text", "Cannot get article name", 5);
     }
 
     public void openBookmarks() {
