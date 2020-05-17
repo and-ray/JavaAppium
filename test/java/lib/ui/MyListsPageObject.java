@@ -1,6 +1,8 @@
 package lib.ui;
 
 import lib.Platform;
+import lib.ui.mobile_web.MWMyListsPageObject;
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class MyListsPageObject extends MainPageObject {
@@ -72,6 +74,18 @@ abstract public class MyListsPageObject extends MainPageObject {
         );
     }
 
+    public void waitForArticleToAppearByName(String name) {
+        String article_title_xpath = getSavedArticleXpathByName(name);
+        this.waitForElementPresent(
+                article_title_xpath,
+                "Cannot find saved article by name " + name, 15
+        );
+    }
+
+    public void getTextFromArticleName(){
+       return waitForElementAndGetAttribute(ARTICLE_BY_NAME_TPL, "Cannot get article name");
+    }
+
     public void openBookmarks() {
         this.waitForElementAndClick(
                 BUTTON_TO_OPEN_BOOKMARK_OPTIONS,
@@ -111,6 +125,10 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     public String getSavedArticleXpathByTitle(String article_title) {
         return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", article_title);
+    }
+
+    public String getSavedArticleXpathByName(String article_name) {
+        return ARTICLE_BY_NAME_TPL.replace("{ARTICLE_NAME}", article_name);
     }
 
     public String getRemoveButtonByTitle(String article_title) {

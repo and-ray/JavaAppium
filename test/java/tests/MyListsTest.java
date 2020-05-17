@@ -7,6 +7,7 @@ import lib.ui.factories.ArticlePageObjectFactory;
 import lib.ui.factories.MyListPageObjectFactory;
 import lib.ui.factories.NavigationUIFactory;
 import lib.ui.factories.SearchPageObjectFactory;
+import lib.ui.mobile_web.MWMyListsPageObject;
 import org.junit.Test;
 
 import static java.lang.Thread.sleep;
@@ -132,6 +133,7 @@ public class MyListsTest extends CoreTestCase {
         }
         myListsPageObject.swipeByArticleToDelete("Java (programming language)");
         myListsPageObject.waitForArticleToDisappearByTitle("Java (programming language)");
-        myListsPageObject.waitForArticleToAppearByTitle("JavaScript");
+        //myListsPageObject.waitForArticleToAppearByName("JavaScript");
+        assertEquals("Article name is not as expected", , "JavaScript");
     }
 }

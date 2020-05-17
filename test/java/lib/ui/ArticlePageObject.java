@@ -4,6 +4,8 @@ import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import static java.lang.Thread.sleep;
+
 abstract public class ArticlePageObject extends MainPageObject {
 
     protected static String
@@ -80,13 +82,14 @@ abstract public class ArticlePageObject extends MainPageObject {
                 5);
     }
 
-    public void addArticlesToMySaved(){
+    public void addArticlesToMySaved() throws InterruptedException {
         if(Platform.getInstance().isMW()){
             removeArticleFromSavedIfItAdded();
         }
+        sleep(5000);
         waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON,
                 "Cannot find option to add article to reading list",
-                5
+                10
                 );
     }
 
