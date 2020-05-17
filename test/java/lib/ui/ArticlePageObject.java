@@ -1,6 +1,5 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -104,19 +103,23 @@ abstract public class ArticlePageObject extends MainPageObject {
             );
         }
     }
-
+/*
     public void addArticleToExistingList(String name_of_reading_list){
         waitForElementAndClick(OPTIONS_ADD_TO_MY_LIST_BUTTON,
                 "Cannot find option to add article to reading list",
                 5
                 );
     }
-
+*/
     public void closeArticle(){
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()) {
         waitForElementAndClick(CLOSE_ARTICLE_BUTTON,
                 "Cannot find button to close article",
                 5
         );
+        } else{
+            System.out.println("Method closeArticle() does nothing for the platform " + Platform.getInstance().getPlatformVar());
+        }
     }
 
     public void waitForArticleByTitlePresent(String name_of_article) {

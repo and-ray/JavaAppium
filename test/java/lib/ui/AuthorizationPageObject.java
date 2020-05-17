@@ -8,12 +8,13 @@ public class AuthorizationPageObject extends MainPageObject{
     }
 
     private static final String
-    LOGIN_BUTTON ="xpath://body/a[text()='Log in']",
+    LOGIN_BUTTON ="xpath://body//a[text()='Log in']",
     LOGIN_INPUT = "css:input[name='wpName']",
     PASSWORD_INPUT ="css:input[name='wpPassword']",
-    SUBMIT_BUTTON = "css:button#wploginattempt";
+    SUBMIT_BUTTON = "css:button[name='wploginattempt']";
 
     public void clickAuthorizationButton(){
+        System.out.println("starting log in");
         waitForElementPresent(LOGIN_BUTTON, "Cannot find auth button", 5);
         waitForElementAndClick(LOGIN_BUTTON, "Cannot find and click auth button", 5);
     }
@@ -24,6 +25,8 @@ public class AuthorizationPageObject extends MainPageObject{
     }
 
     public void submitForm(){
+
         waitForElementAndClick(SUBMIT_BUTTON,"Cannot find and click submit auth button", 5);
+        System.out.println("successfully logged in");
     }
 }

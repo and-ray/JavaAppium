@@ -1,6 +1,5 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -11,7 +10,9 @@ abstract public class MyListsPageObject extends MainPageObject {
             FOLDER_BY_NAME_TPL,
             ARTICLE_BY_NAME_TPL,
             BUTTON_TO_OPEN_SAVED_ARTICLES,
-            CLOSE_OVERLAY;
+            CLOSE_OVERLAY,
+            REMOVE_FROM_SAVED_BUTTON,
+            ARTICLE_BY_TITLE_TPL;
 
     public MyListsPageObject(RemoteWebDriver driver) {
         super(driver);
@@ -29,13 +30,28 @@ abstract public class MyListsPageObject extends MainPageObject {
     public void swipeByArticleToDelete(String article_title) {
         this.waitForArticleToAppearByTitle(article_title);
         String article_title_xpath = getSavedArticleXpathByTitle(article_title);
+        if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()){
         this.swipeElementToTheLeft(
                 article_title_xpath,
                 "Cannot find saved article with title " + article_title
         );
+        } else {
+            String remove_locator = getRemoveButtonByTitle(article_title);
+            waitForElementAndClick(
+                    remove_locator,
+                    "Cannot click button to remove article from saved",
+                    10
+            );
+
+        }
+
         if (Platform.getInstance().isIOS()){
             clickElementByTheRightUpperCorner(article_title_xpath,
                     "Cannot find saved article ");
+        }
+
+        if (Platform.getInstance().isMW()){
+            driver.navigate().refresh();
         }
         this.waitForArticleToDisappearByTitle(article_title);
     }
@@ -52,7 +68,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         String article_title_xpath = getSavedArticleXpathByTitle(article_title);
         this.waitForElementPresent(
                 article_title_xpath,
-                "Cannot find saved article by title" + article_title, 15
+                "Cannot find saved article by title " + article_title, 15
         );
     }
 
@@ -64,10 +80,19 @@ abstract public class MyListsPageObject extends MainPageObject {
     }
 
     public void openSavedArticles() {
+        if (Platform.getInstance().isMW()){
+            tryClickElementWithFewAttempts(
+                    BUTTON_TO_OPEN_SAVED_ARTICLES,
+                    "Cannot find button to open article lists",
+                    5
+            );
+        }
+        else {
         this.waitForElementAndClick(
                 BUTTON_TO_OPEN_SAVED_ARTICLES,
                 "Cannot find button to open saved articles",
                 5);
+    }
     }
 
     public void addArticleToExistingReadingList(String name_of_reading_list) {
@@ -85,7 +110,11 @@ abstract public class MyListsPageObject extends MainPageObject {
     }
 
     public String getSavedArticleXpathByTitle(String article_title) {
-        return ARTICLE_BY_NAME_TPL.replace("{ARTICLE_NAME}", article_title);
+        return ARTICLE_BY_TITLE_TPL.replace("{TITLE}", article_title);
+    }
+
+    public String getRemoveButtonByTitle(String article_title) {
+        return REMOVE_FROM_SAVED_BUTTON.replace("{TITLE}", article_title);
     }
     /* TEMPLATES METHODS */
 

@@ -12,6 +12,7 @@ public class MWNavigationUI extends NavigationUI {
         NO_THANKS_BUTTON = "xpath://*[contains(@text, 'NO THANKS')]";
         OPTIONS_BUTTON = "xpath://android.widget.ImageView[@content-desc='More options']";
         NAVIGATE_BACK = "xpath://*[@content-desc='Navigate up']";
+        OPEN_NAVIGATION = "css:#mw-mf-main-menu-button";
 
     }
 }

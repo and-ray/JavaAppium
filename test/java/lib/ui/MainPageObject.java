@@ -47,6 +47,23 @@ public class MainPageObject {
         }
     }
 
+    public void tryClickElementWithFewAttempts(String locator, String error_message, int amount_of_attempts){
+        int current_attempts = 0;
+        boolean need_more_attempts = true;
+
+        while (need_more_attempts){
+            try{
+                waitForElementAndClick(locator, error_message, 1);
+                need_more_attempts = false;
+            } catch (Exception e){
+                if (current_attempts > amount_of_attempts){
+                    waitForElementAndClick(locator, error_message, 1);
+                }
+            }
+            ++current_attempts;
+        }
+    }
+
     public int getAmountOfElements(String locator) {
         By by = getLocatorByString(locator);
         List elements = driver.findElements(by);

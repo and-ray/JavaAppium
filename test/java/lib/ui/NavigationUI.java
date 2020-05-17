@@ -1,6 +1,6 @@
 package lib.ui;
 
-import io.appium.java_client.AppiumDriver;
+import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 abstract public class NavigationUI extends MainPageObject {
@@ -13,8 +13,16 @@ abstract public class NavigationUI extends MainPageObject {
             BUTTON_TO_OPEN_OPTIONS,
             NO_THANKS_BUTTON,
             OPTIONS_BUTTON,
-            NAVIGATE_BACK;
+            NAVIGATE_BACK,
+            OPEN_NAVIGATION;
 
+    public void openNavigation(){
+        if (Platform.getInstance().isMW()){
+    waitForElementAndClick(OPEN_NAVIGATION, "Cannot find and click open navigation button", 5);
+        }    else {
+            System.out.println("Method openNavigation does nothing for the platform " + Platform.getInstance().getPlatformVar());
+        }
+    }
 
     public void openMyLists() {
         openOptions();
@@ -37,10 +45,12 @@ abstract public class NavigationUI extends MainPageObject {
     }
 
     public void clickMyReadingLists() {
-        this.waitForElementAndClick(
-                BUTTON_TO_OPEN_OPTIONS,
-                "Cannot find button to open article lists",
-                5);
+
+            this.waitForElementAndClick(
+                    BUTTON_TO_OPEN_OPTIONS,
+                    "Cannot find button to open article lists",
+                    5);
+
     }
 
     public void clickNoThanksButton() {
