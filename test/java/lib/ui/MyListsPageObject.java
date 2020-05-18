@@ -3,6 +3,8 @@ package lib.ui;
 import lib.Platform;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import static java.lang.Thread.sleep;
+
 abstract public class MyListsPageObject extends MainPageObject {
 
     protected static String
@@ -27,7 +29,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         );
     }
 
-    public void swipeByArticleToDelete(String article_title) {
+    public void swipeByArticleToDelete(String article_title) throws InterruptedException {
         this.waitForArticleToAppearByTitle(article_title);
         String article_title_xpath = getSavedArticleXpathByTitle(article_title);
         if (Platform.getInstance().isIOS() || Platform.getInstance().isAndroid()){
@@ -37,6 +39,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         );
         } else {
             String remove_locator = getRemoveButtonByTitle(article_title);
+            sleep(3000);
             waitForElementAndClick(
                     remove_locator,
                     "Cannot click button to remove article from saved",
@@ -53,6 +56,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         if (Platform.getInstance().isMW()){
             driver.navigate().refresh();
         }
+        sleep(3000);
         this.waitForArticleToDisappearByTitle(article_title);
     }
 
@@ -60,7 +64,7 @@ abstract public class MyListsPageObject extends MainPageObject {
         String article_title_xpath = getSavedArticleXpathByTitle(article_title);
         this.waitForElementNotPresent(
                 article_title_xpath,
-                "Saved article still presents with title" + article_title, 10
+                "Saved article still presents with title " + article_title, 10
         );
     }
 
@@ -83,7 +87,7 @@ abstract public class MyListsPageObject extends MainPageObject {
     public String getTextFromArticleName(){
         System.out.println("ARTICLE_BY_NAME_TPL = " + ARTICLE_BY_NAME_TPL);
        return waitForElementAndGetAttribute(ARTICLE_BY_NAME_TPL,
-               "text", "Cannot get article name", 5);
+               "outerText", "Cannot get article name", 5);
     }
 
     public void openBookmarks() {
