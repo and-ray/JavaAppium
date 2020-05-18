@@ -12,5 +12,6 @@ public class AndroidMyListsPageObject extends MyListsPageObject {
         BUTTON_TO_OPEN_BOOKMARK_OPTIONS = "id:org.wikipedia:id/article_menu_bookmark";
         FOLDER_BY_NAME_TPL = "xpath://*[contains(@text, '{FOLDER_NAME}')]";
         ARTICLE_BY_TITLE_TPL = "xpath://*[contains(@text, '{TITLE}')]";
+        ARTICLE_BY_NAME_TPL = "xpath://*[@id='page_list_item_title']";
     }
 }

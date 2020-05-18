@@ -86,8 +86,12 @@ abstract public class MyListsPageObject extends MainPageObject {
 
     public String getTextFromArticleName(){
         System.out.println("ARTICLE_BY_NAME_TPL = " + ARTICLE_BY_NAME_TPL);
-       return waitForElementAndGetAttribute(ARTICLE_BY_NAME_TPL,
-               "outerText", "Cannot get article name", 5);
+       if(Platform.getInstance().isMW()) {
+           return waitForElementAndGetAttribute(ARTICLE_BY_NAME_TPL,
+                   "outerText", "Cannot get article name", 5);
+       }
+       else return waitForElementAndGetAttribute(ARTICLE_BY_NAME_TPL,
+               "text", "Cannot get article name", 5);
     }
 
     public void openBookmarks() {
